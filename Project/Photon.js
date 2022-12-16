@@ -2,7 +2,7 @@ class Photon {
     constructor(x, y, w) {
         this.pos = createVector(x, y); 
         this.vel = createVector(-c, 0);
-        this.theta = createVector(-1, 0);
+        this.theta = PI;
         this.wavelength = w;
         this.energy = h * c / this.wavelength;
         this.stopped = false;

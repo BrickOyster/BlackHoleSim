@@ -4,16 +4,19 @@ class BlackHole {
         this.mass = m;
         // Schwarzschild radius (Event Horizon)
         this.rs = G * this.mass * c * c;
-        this.mass /= 4 * Math.pow(10, 19);
     }
 
     pull(photon) {
-        const f = p5.Vector.sub(this.pos, photon.pos);
-        const r = f.mag();
-        const fg = G * this.mass / (r * r);
-        f.setMag(fg);
-        photon.vel.add(f);
-        photon.vel.limit(c);
+        const dist = p5.Vector.sub(this.pos, photon.pos);
+        const theta = dist.heading();
+        const r = dist.mag();
+        const fg = (G * this.mass) / (r * r);
+        let deltaTheta = -fg * (timeNorm / c) * sin(photon.theta - theta);
+        deltaTheta /= abs(1.0 - 2 * G * this.mass / (r * c * c));
+        photon.theta += deltaTheta;
+        photon.vel = p5.Vector.fromAngle(photon.theta);
+        photon.vel.setMag(c);
+
     }
 
     show() {
